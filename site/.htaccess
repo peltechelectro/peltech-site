@@ -1,3 +1,9 @@
+# Dezactiveaza LiteSpeed Cache
+<IfModule LiteSpeed>
+  CacheDisable public /
+</IfModule>
+Header always set X-LiteSpeed-Cache-Control "no-cache"
+
 # GZIP Compression
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml
