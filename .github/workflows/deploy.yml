@@ -18,3 +18,8 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./site/
           server-dir: /public_html/
+          dangerous-clean-slate: false
+          log-level: minimal
+          exclude: |
+            **/.git*
+            **/.git*/**
