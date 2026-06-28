@@ -36,7 +36,7 @@ $headers = implode("\r\n", [
     'MIME-Version: 1.0',
     'Content-Type: text/plain; charset=UTF-8',
     'Content-Transfer-Encoding: 8bit',
-    'From: Site PELTECH <noreply@peltech.ro>',
+    'From: Site PELTECH <office@peltech.ro>',
     "Reply-To: $replyTo",
 ]);
 
