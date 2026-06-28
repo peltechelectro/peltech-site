@@ -17,6 +17,6 @@ jobs:
             set ftp:ssl-allow no;
             open -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_HOST }};
             rm -rf /public_html;
-            mirror --reverse --verbose ./site/ /;
+            mirror --reverse --verbose --transfer-all ./site/ /;
             quit
           "
