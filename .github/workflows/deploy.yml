@@ -10,9 +10,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Deploy via FTP (lftp)
+      - name: Debug FTP root
         run: |
           sudo apt-get install -y lftp
+          lftp -e "
+            set ftp:ssl-allow no;
+            open -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_HOST }};
+            pwd;
+            ls;
+            quit
+          "
+
+      - name: Deploy via FTP (lftp)
+        run: |
           lftp -e "
             set ftp:ssl-allow no;
             open -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_HOST }};
