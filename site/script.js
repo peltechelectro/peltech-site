@@ -9,18 +9,21 @@ async function sendForm(){
   const btn=document.querySelector('.contact-form .btn-primary');
   btn.disabled=true;btn.textContent='Se trimite...';
   try{
-    const res=await fetch('/send-mail.php',{
+    const res=await fetch('https://api.web3forms.com/submit',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        name,phone,
-        email:document.getElementById('f-email').value.trim(),
-        type:document.getElementById('f-type').value,
-        message:document.getElementById('f-msg').value.trim()
+        access_key:'99f18de4-05e8-460c-b213-b780659f9429',
+        subject:'Cerere ofertă nouă — PELTECH',
+        name,
+        phone:phone,
+        email:document.getElementById('f-email').value.trim()||'(necompletat)',
+        'Tip lucrare':document.getElementById('f-type').value||'(nespecificat)',
+        message:document.getElementById('f-msg').value.trim()||'(fără mesaj)'
       })
     });
     const d=await res.json();
-    if(d.ok){
+    if(d.success){
       document.getElementById('form-success').style.display='block';
       ['f-name','f-phone','f-email','f-type','f-msg'].forEach(id=>document.getElementById(id).value='');
     }else{
