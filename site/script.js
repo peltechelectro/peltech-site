@@ -2,16 +2,34 @@ function toggleMenu(){
   document.getElementById('mobileMenu').classList.toggle('open');
 }
 
-function sendForm(){
+async function sendForm(){
   const name=document.getElementById('f-name').value.trim();
   const phone=document.getElementById('f-phone').value.trim();
   if(!name||!phone){alert('Completați cel puțin numele și telefonul.');return;}
-  document.getElementById('form-success').style.display='block';
-  document.getElementById('f-name').value='';
-  document.getElementById('f-phone').value='';
-  document.getElementById('f-email').value='';
-  document.getElementById('f-type').value='';
-  document.getElementById('f-msg').value='';
+  const btn=document.querySelector('.contact-form .btn-primary');
+  btn.disabled=true;btn.textContent='Se trimite...';
+  try{
+    const res=await fetch('/send-mail.php',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        name,phone,
+        email:document.getElementById('f-email').value.trim(),
+        type:document.getElementById('f-type').value,
+        message:document.getElementById('f-msg').value.trim()
+      })
+    });
+    const d=await res.json();
+    if(d.ok){
+      document.getElementById('form-success').style.display='block';
+      ['f-name','f-phone','f-email','f-type','f-msg'].forEach(id=>document.getElementById(id).value='');
+    }else{
+      alert('Eroare la trimitere. Contactați-ne telefonic.');
+    }
+  }catch(e){
+    alert('Eroare la trimitere. Contactați-ne telefonic.');
+  }
+  btn.disabled=false;btn.textContent='Trimite mesajul →';
 }
 
 // Scroll: nav opacity + parallax
