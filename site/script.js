@@ -83,6 +83,17 @@ const observer=new IntersectionObserver((entries)=>{
 document.querySelectorAll('.hero-stat-num[data-target]').forEach(el=>observer.observe(el));
 document.querySelectorAll('.fade-in-section').forEach(el=>observer.observe(el));
 
+// Title reveal
+const titleObserver=new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+      titleObserver.unobserve(entry.target);
+    }
+  });
+},{threshold:0.1,rootMargin:'0px 0px 60px 0px'});
+document.querySelectorAll('.section-title').forEach(el=>titleObserver.observe(el));
+
 // Staggered service cards
 const cardObserver=new IntersectionObserver((entries)=>{
   entries.forEach(entry=>{
