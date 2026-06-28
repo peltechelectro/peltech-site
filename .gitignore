@@ -1,0 +1,8 @@
+# Fisiere vechi din radacina proiectului (nu din site/)
+/index*.html
+/peltech_site*.html
+/logo.svg
+/bootstrap.ps1
+/*.zip
+/.claude/
+/site pontaj/
