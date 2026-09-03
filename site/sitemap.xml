@@ -47,6 +47,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://peltech.ro/blog/casa-verde-baterii-2026.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://peltech.ro/blog/cat-costa-sistem-fotovoltaic-timisoara.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
