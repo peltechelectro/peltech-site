@@ -38,9 +38,10 @@ Header always set X-LiteSpeed-Cache-Control "no-cache"
   Header always set Referrer-Policy         "strict-origin-when-cross-origin"
 </IfModule>
 
-# Redirect www → non-www
+# Redirect HTTP -> HTTPS si www -> non-www
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  RewriteCond %{HTTPS} off [OR]
   RewriteCond %{HTTP_HOST} ^www\.peltech\.ro [NC]
   RewriteRule ^(.*)$ https://peltech.ro/$1 [R=301,L]
 </IfModule>
