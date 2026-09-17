@@ -2,6 +2,68 @@ function toggleMenu(){
   document.getElementById('mobileMenu').classList.toggle('open');
 }
 
+/* Google Analytics (GA4) — se incarca doar dupa consimtamant explicit */
+const GA_ID='G-ZHV9T4CBHB';
+const SITE_ROOT=((document.currentScript&&document.currentScript.src)||'').replace(/script\.js(\?.*)?$/,'');
+
+function loadGA(){
+  if(window.gaLoaded)return;
+  window.gaLoaded=true;
+  const s=document.createElement('script');
+  s.async=true;
+  s.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;
+  document.head.appendChild(s);
+  window.dataLayer=window.dataLayer||[];
+  window.gtag=function(){dataLayer.push(arguments);};
+  gtag('js',new Date());
+  gtag('config',GA_ID);
+}
+
+function showCookieBanner(){
+  let banner=document.getElementById('cookie-banner');
+  if(banner){banner.classList.add('visible');return;}
+  banner=document.createElement('div');
+  banner.id='cookie-banner';
+  banner.className='cookie-banner';
+  banner.innerHTML='<p>Folosim Google Analytics pentru a înțelege cum este vizitat acest site. Poți accepta sau refuza — detalii în <a href="'+SITE_ROOT+'politica-de-confidentialitate.html">Politica de confidențialitate</a>.</p>'
+    +'<div class="cookie-banner-actions">'
+    +'<button class="cookie-btn cookie-btn-decline" id="cookie-decline">Refuz</button>'
+    +'<button class="cookie-btn cookie-btn-accept" id="cookie-accept">Accept</button>'
+    +'</div>';
+  document.body.appendChild(banner);
+  document.getElementById('cookie-accept').onclick=function(){
+    try{localStorage.setItem('cookie-consent','granted');}catch(e){}
+    banner.classList.remove('visible');
+    loadGA();
+  };
+  document.getElementById('cookie-decline').onclick=function(){
+    try{localStorage.setItem('cookie-consent','denied');}catch(e){}
+    banner.classList.remove('visible');
+  };
+  requestAnimationFrame(function(){banner.classList.add('visible');});
+}
+
+(function initConsent(){
+  let consent=null;
+  try{consent=localStorage.getItem('cookie-consent');}catch(e){}
+  if(consent==='granted'){loadGA();}
+  else if(consent!=='denied'){showCookieBanner();}
+})();
+
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('.footer-links').forEach(function(el){
+    const a=document.createElement('a');
+    a.href='#';
+    a.textContent='Cookie-uri';
+    a.onclick=function(e){
+      e.preventDefault();
+      try{localStorage.removeItem('cookie-consent');}catch(err){}
+      showCookieBanner();
+    };
+    el.appendChild(a);
+  });
+});
+
 async function sendForm(){
   const name=document.getElementById('f-name').value.trim();
   const phone=document.getElementById('f-phone').value.trim();
