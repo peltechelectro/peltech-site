@@ -6,6 +6,7 @@ async function sendForm(){
   const name=document.getElementById('f-name').value.trim();
   const phone=document.getElementById('f-phone').value.trim();
   if(!name||!phone){alert('Completați cel puțin numele și telefonul.');return;}
+  if(!document.getElementById('f-consent').checked){alert('Trebuie să fii de acord cu prelucrarea datelor pentru a trimite formularul.');return;}
   const btn=document.querySelector('.contact-form .btn-primary');
   btn.disabled=true;btn.textContent='Se trimite...';
   try{
@@ -26,6 +27,7 @@ async function sendForm(){
     if(d.success){
       document.getElementById('form-success').style.display='block';
       ['f-name','f-phone','f-email','f-type','f-msg'].forEach(id=>document.getElementById(id).value='');
+      document.getElementById('f-consent').checked=false;
     }else{
       alert('Eroare la trimitere. Contactați-ne telefonic.');
     }
