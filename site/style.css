@@ -292,6 +292,12 @@ section{padding:100px 5vw}
 .form-group select option{background:#1a1a1a}
 .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--orange)}
 .form-group textarea{height:120px;resize:vertical}
+.form-group input[type="checkbox"]{
+  width:18px;height:18px;flex-shrink:0;
+  padding:0;-webkit-appearance:checkbox;appearance:auto;
+  accent-color:var(--orange);background:transparent;border:none;
+}
+.form-consent label{font-size:13px;line-height:1.6;color:rgba(242,240,235,0.65)}
 .form-success{display:none;padding:1rem;background:rgba(247,147,30,0.1);border:1px solid rgba(247,147,30,0.3);color:var(--orange);font-size:14px;margin-top:1rem;text-align:center}
 
 /* FOOTER */
