@@ -61,6 +61,7 @@
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-img"><img src="images/img-1.jpeg" alt="PELTECH Solar" fetchpriority="high"></div>
+  <div class="hero-3d" id="hero3d" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Timișoara & împrejurimi</div>
     <h1 class="hero-title">Instalații<br><em>electrice</em><br>& fotovoltaice</h1>
@@ -380,5 +381,17 @@
 }
 </script>
 <script src="script.js"></script>
+<script src="js/scroll-fx.js" defer></script>
+<script>
+/* Casă 3D în hero — se încarcă doar pe dispozitive capabile, după ce pagina e gata */
+(function(){
+  var gl=null;try{var c=document.createElement('canvas');gl=c.getContext('webgl2')||c.getContext('webgl');}catch(e){}
+  var n=navigator,mob=window.innerWidth<=900;
+  var weak=(n.deviceMemory&&n.deviceMemory<4)||(n.hardwareConcurrency&&n.hardwareConcurrency<4)||(n.connection&&n.connection.saveData);
+  if(!gl||(mob&&weak))return;
+  var go=function(){import('./js/hero3d.js').catch(function(){});};
+  if('requestIdleCallback' in window)requestIdleCallback(go,{timeout:1500});else setTimeout(go,600);
+})();
+</script>
 </body>
 </html>

@@ -68,6 +68,26 @@
 .lead p{font-size:14px;color:rgba(242,240,235,0.7);margin-bottom:1rem}
 .lead-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
 @media(max-width:520px){.lead-row,.res-grid{grid-template-columns:1fr}}
+.flow-box{border:1px solid rgba(247,147,30,0.15);background:#121212;margin-bottom:1.5rem;padding:1rem 1rem .75rem}
+.flow-head{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:.5rem;flex-wrap:wrap}
+.flow-status{font-size:14px;color:var(--off-white);display:flex;align-items:center;gap:.5rem;min-height:1.4em}
+.flow-status b{color:var(--orange);font-weight:500}
+.flow-tog{display:flex;border:1px solid rgba(247,147,30,0.3)}
+.flow-tog button{background:transparent;border:none;color:var(--light-gray);font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.35rem .7rem;cursor:pointer}
+.flow-tog button.on{background:var(--orange);color:#111}
+#flow svg{width:100%;height:auto;display:block}
+#flow .fl{fill:none;stroke:rgba(255,255,255,.08);stroke-width:3;stroke-linecap:round}
+#flow .fa{fill:none;stroke:var(--orange);stroke-width:3;stroke-linecap:round;stroke-dasharray:3 11;opacity:0;transition:opacity .5s;animation:flowdash .9s linear infinite;filter:drop-shadow(0 0 3px rgba(247,147,30,.8))}
+#flow .fa.rev{animation-direction:reverse}
+#flow .fa.on{opacity:1}
+@keyframes flowdash{to{stroke-dashoffset:-14}}
+#flow .lbl{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;fill:#888}
+#flow .val{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;fill:#f2f0eb}
+#flow .sky{transition:opacity .8s}
+#flow .batfill{transform-box:fill-box;transform-origin:50% 100%;transition:transform 4.2s linear,fill .5s}
+#flow .win{transition:fill .8s}
+#flow .dim{opacity:.25;transition:opacity .5s}
+@media(prefers-reduced-motion:reduce){#flow .fa{animation:none;stroke-dasharray:none}}
 .warn{display:none;font-size:14px;color:#ffb35c;background:rgba(247,147,30,0.08);padding:.75rem 1rem;margin-bottom:1rem;line-height:1.5}
 </style>
 </head>
@@ -180,6 +200,40 @@
   <!-- OUTPUT -->
   <div class="calc-card">
     <h2>Rezultat orientativ</h2>
+    <div class="flow-box" id="flow">
+      <div class="flow-head">
+        <div class="flow-status" id="fl-status"></div>
+        <div class="flow-tog"><button data-ph="auto" class="on">Auto</button><button data-ph="zi">☀ Zi</button><button data-ph="seara">🌙 Seară</button></div>
+      </div>
+      <svg viewBox="0 0 420 210" role="img" aria-label="Diagramă animată a fluxului de energie între panouri, baterie, casă și rețea">
+        <!-- trasee -->
+        <path class="fl" id="p-pv-house" d="M182 58 C 230 60, 250 80, 268 104"/>
+        <path class="fl" id="p-pv-bat" d="M140 78 L140 128"/>
+        <path class="fl" id="p-bat-house" d="M170 160 C 215 160, 240 150, 262 140"/>
+        <path class="fl" id="p-house-grid" d="M330 104 C 345 85, 355 72, 368 64"/>
+        <path class="fa" id="a-pv-house" d="M182 58 C 230 60, 250 80, 268 104"/>
+        <path class="fa" id="a-pv-bat" d="M140 78 L140 128"/>
+        <path class="fa" id="a-bat-house" d="M170 160 C 215 160, 240 150, 262 140"/>
+        <path class="fa" id="a-house-grid" d="M330 104 C 345 85, 355 72, 368 64"/>
+        <!-- soare / lună -->
+        <g class="sky" id="sun"><circle cx="40" cy="38" r="13" fill="#F7931E"/><g stroke="#F7931E" stroke-width="2.5" stroke-linecap="round"><line x1="40" y1="14" x2="40" y2="19"/><line x1="40" y1="57" x2="40" y2="62"/><line x1="16" y1="38" x2="21" y2="38"/><line x1="59" y1="38" x2="64" y2="38"/><line x1="23" y1="21" x2="27" y2="25"/><line x1="53" y1="51" x2="57" y2="55"/><line x1="23" y1="55" x2="27" y2="51"/><line x1="53" y1="25" x2="57" y2="21"/></g></g>
+        <g class="sky" id="moon" style="opacity:0"><path d="M48 24a16 16 0 1 0 6 22a13 13 0 1 1 -6 -22z" fill="#c9d3ff"/></g>
+        <!-- panouri -->
+        <g id="n-pv"><path d="M108 70 L120 34 L176 34 L164 70 Z" fill="#13233b" stroke="#c9ccd1" stroke-width="1.5"/><g stroke="rgba(160,185,220,.45)" stroke-width="1"><line x1="126.7" y1="34" x2="114.7" y2="70"/><line x1="145.3" y1="34" x2="133.3" y2="70"/><line x1="164" y1="34" x2="152" y2="70"/><line x1="114" y1="52" x2="170" y2="52"/></g>
+          <text class="lbl" x="142" y="20" text-anchor="middle">Panouri</text><text class="val" id="t-pv" x="196" y="30"></text></g>
+        <!-- baterie -->
+        <g id="n-bat"><rect x="118" y="130" width="44" height="64" rx="4" fill="#1d1d1d" stroke="#f2f0eb" stroke-width="1.5"/><rect x="132" y="125" width="16" height="5" rx="1.5" fill="#f2f0eb"/>
+          <rect class="batfill" id="batfill" x="122" y="134" width="36" height="56" rx="2" fill="#F7931E"/>
+          <text class="lbl" x="98" y="150" text-anchor="end">Baterie</text><text class="val" id="t-bat" x="98" y="168" text-anchor="end"></text><text class="val" id="t-batp" x="140" y="166" text-anchor="middle" style="fill:#111"></text></g>
+        <!-- casă -->
+        <g id="n-house"><path d="M262 108 L299 80 L336 108 Z" fill="#2b2b2e" stroke="#555" stroke-width="1"/><rect x="268" y="108" width="62" height="48" fill="#e8e3d9"/><rect x="292" y="128" width="13" height="28" fill="#5a3b26"/>
+          <rect class="win" id="w1" x="274" y="116" width="13" height="12" fill="#1b2433"/><rect class="win" id="w2" x="311" y="116" width="13" height="12" fill="#1b2433"/>
+          <text class="lbl" x="299" y="174" text-anchor="middle">Casa ta</text><text class="val" id="t-house" x="299" y="191" text-anchor="middle"></text></g>
+        <!-- rețea -->
+        <g id="n-grid" stroke="#9a8f82" stroke-width="2" fill="none"><line x1="385" y1="30" x2="385" y2="96"/><line x1="370" y1="40" x2="400" y2="40"/><line x1="374" y1="52" x2="396" y2="52"/><line x1="385" y1="96" x2="372" y2="110"/><line x1="385" y1="96" x2="398" y2="110"/></g>
+        <text class="lbl" x="385" y="126" text-anchor="middle">Rețea</text><text class="val" id="t-grid" x="385" y="143" text-anchor="middle" style="font-size:12px"></text>
+      </svg>
+    </div>
     <div class="warn" id="w-phase"></div>
     <div class="res-grid">
       <div class="res hl" id="r-kwp-box">
@@ -368,7 +422,49 @@ function calc(){
     : '<strong>Subvenția estimată</strong> respectă regulile ghidului AFM: max. 75% din costul eligibil, plafonat la 1.500 lei/kWh și 15.000 lei. Invertorul hibrid nu e cheltuială eligibilă. Înscrieri: 20–25 noiembrie 2026 — <a href="blog/casa-verde-baterii-2026.html">vezi ghidul complet</a>.';
 
   last={mod:isNew?'Sistem nou':'Doar baterie (are panouri)',kwh,phase,roof:isNew?roof:'-',kwp,bat,prod:Math.round(prod),cost:fmt(r500(lo))+' – '+fmt(r500(hi))+' lei',sub:Math.round(sub),save:Math.round(save),hyb:!isNew?($('c-hyb').checked?'da':'nu'):'-'};
+  if(typeof flowRender==='function') flowRender();
 }
+
+
+// ---------- flux energetic animat ----------
+let flPhase='auto', flCur='zi', flTimer=null;
+const FL=id=>document.getElementById(id);
+function flSet(id,on,rev){const e=FL(id); e.classList.toggle('on',!!on); e.classList.toggle('rev',!!rev);}
+function flowRender(){
+  const L=last, hasBat=L.bat>0, day=flCur==='zi';
+  const dailyProd=L.prod/365, dailyUse=L.kwh/30;
+  FL('n-bat').classList.toggle('dim',!hasBat);
+  FL('p-pv-bat').classList.toggle('dim',!hasBat); FL('p-bat-house').classList.toggle('dim',!hasBat);
+  FL('sun').style.opacity=day?1:0; FL('moon').style.opacity=day?0:1;
+  ['w1','w2'].forEach(w=>FL(w).style.fill=day?'#1b2433':'#ffcf7a');
+  FL('t-pv').textContent=String(L.kwp).replace('.',',')+' kWp';
+  FL('t-bat').textContent=hasBat?L.bat+' kWh':'—';
+  FL('t-house').textContent='~'+fmt(dailyUse)+' kWh/zi';
+  const surplus=Math.max(0,dailyProd-dailyUse*0.45-(hasBat?L.bat:0));
+  let msg;
+  if(day){
+    flSet('a-pv-house',1); flSet('a-pv-bat',hasBat); flSet('a-bat-house',0);
+    const exp=surplus>0.5; flSet('a-house-grid',exp,false);
+    FL('t-grid').textContent=exp?'↑ ~'+fmt(surplus)+' kWh/zi':'';
+    msg=hasBat?'☀ <span>Ziua: panourile alimentează casa și <b>încarcă bateria</b>'+(exp?', surplusul merge în rețea':'')+'</span>':'☀ <span>Ziua: panourile alimentează casa'+(exp?', <b>surplusul merge în rețea</b>':'')+'</span>';
+    FL('batfill').style.transform='scaleY(1)';
+  }else{
+    flSet('a-pv-house',0); flSet('a-pv-bat',0);
+    flSet('a-bat-house',hasBat);
+    const night=dailyUse*0.5, need=Math.max(0,night-(hasBat?L.bat*0.9:0));
+    flSet('a-house-grid',need>0.3,true);
+    FL('t-grid').textContent=need>0.3?'↓ ~'+fmt(need)+' kWh':'';
+    msg=hasBat?('🌙 <span>Seara: <b>bateria alimentează casa</b>'+(need>0.3?', restul vine din rețea':' toată noaptea')+'</span>'):'🌙 <span>Seara: fără baterie, <b>casa ia energie din rețea</b></span>';
+    FL('batfill').style.transform='scaleY('+(hasBat?Math.max(0.1,1-Math.min(1,night/(L.bat*0.9))):0.1)+')';
+  }
+  FL('fl-status').innerHTML=msg;
+}
+function flTick(){ if(flPhase==='auto'){ flCur=flCur==='zi'?'seara':'zi'; flowRender(); } }
+document.querySelectorAll('.flow-tog button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.flow-tog button').forEach(x=>x.classList.toggle('on',x===b));
+  flPhase=b.dataset.ph; if(flPhase!=='auto') flCur=flPhase; flowRender();
+}));
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches) flTimer=setInterval(flTick,4500);
 
 async function sendLead(){
   const name=$('l-name').value.trim(), phone=$('l-phone').value.trim();
