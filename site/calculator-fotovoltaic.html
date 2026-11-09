@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="favicon.png" type="image/png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculator fotovoltaic cu baterie — putere, cost și subvenție | PELTECH Timișoara</title>
+<meta name="description" content="Calculează gratuit ce sistem fotovoltaic și ce baterie îți trebuie: putere în kWp, capacitate de stocare, cost estimativ, subvenția Casa Verde Baterii 2026 și economia anuală. Timișoara și Timiș.">
+<link rel="canonical" href="https://peltech.ro/calculator-fotovoltaic.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://peltech.ro/calculator-fotovoltaic.html">
+<meta property="og:title" content="Calculator fotovoltaic cu baterie — putere, cost și subvenție">
+<meta property="og:description" content="Află în 30 de secunde ce sistem fotovoltaic și ce baterie îți trebuie, cât costă orientativ și cât acoperă subvenția.">
+<meta property="og:image" content="https://peltech.ro/images/img-1.jpeg">
+<meta property="og:locale" content="ro_RO">
+<meta property="og:site_name" content="PELTECH Electro Research">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="inner.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Calculator fotovoltaic cu baterie — PELTECH",
+  "url": "https://peltech.ro/calculator-fotovoltaic.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {"@type":"Offer","price":"0","priceCurrency":"RON"},
+  "provider": {"@type":"Organization","name":"PELTECH Electro Research SRL","url":"https://peltech.ro"}
+}
+</script>
+<style>
+.calc-wrap{max-width:1100px;margin:0 auto;padding:60px 5vw 80px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:2rem;align-items:start}
+@media(max-width:860px){.calc-wrap{grid-template-columns:1fr}}
+.calc-card{background:rgba(255,255,255,0.03);border:1px solid rgba(247,147,30,0.12);padding:2rem}
+.calc-card h2{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:1.5rem;color:var(--off-white)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid rgba(247,147,30,0.3);margin-bottom:1.5rem}
+.seg button{background:transparent;color:var(--off-white);border:none;padding:.85rem .5rem;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s}
+.seg button.on{background:var(--orange);color:#111}
+.range-row{display:flex;align-items:center;gap:1rem}
+.range-row input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:6px;padding:0;border:none;border-radius:3px;background:rgba(255,255,255,0.15);outline:none;cursor:pointer}
+.range-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--orange);border:3px solid #111;box-shadow:0 0 0 1px var(--orange)}
+.range-row input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--orange);border:3px solid #111}
+.range-row input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:rgba(255,255,255,0.15)}
+.range-val{min-width:110px;text-align:right;font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--orange)}
+.hint{font-size:13px;color:var(--light-gray);margin-top:.4rem;line-height:1.5}
+.form-group label.chk{display:flex;font-size:15px;font-weight:400;text-transform:none;letter-spacing:normal;font-family:'Barlow',sans-serif;color:var(--off-white)}
+.chk{display:flex;gap:.6rem;align-items:flex-start;cursor:pointer;font-size:15px;line-height:1.5}
+.chk input{margin-top:.3rem;accent-color:var(--orange);width:auto}
+.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(247,147,30,0.15);border:1px solid rgba(247,147,30,0.15);margin-bottom:1.5rem}
+.res{background:#151515;padding:1.25rem}
+.res-label{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--light-gray);margin-bottom:.35rem}
+.res-num{font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:700;color:var(--off-white);line-height:1.1}
+.res-num small{font-size:15px;font-weight:500;color:var(--light-gray)}
+.res.hl .res-num{color:var(--orange)}
+.res-sub{font-size:13px;color:var(--light-gray);margin-top:.3rem;line-height:1.4}
+.cost-table{width:100%;border-collapse:collapse;font-size:15px;margin-bottom:1rem}
+.cost-table td{padding:.6rem 0;border-bottom:1px solid rgba(255,255,255,0.06)}
+.cost-table td:last-child{text-align:right;white-space:nowrap;font-weight:500}
+.cost-table tr.tot td{border-bottom:none;padding-top:.9rem;font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:700;color:var(--orange)}
+.cost-table tr.neg td:last-child{color:#7bd389}
+.note{font-size:13px;color:var(--light-gray);line-height:1.6;border-left:2px solid rgba(247,147,30,0.4);padding-left:1rem;margin:1rem 0}
+.note a{color:var(--orange)}
+.lead{margin-top:1.75rem;padding-top:1.75rem;border-top:1px solid rgba(247,147,30,0.15)}
+.lead h3{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.5rem}
+.lead p{font-size:14px;color:rgba(242,240,235,0.7);margin-bottom:1rem}
+.lead-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:520px){.lead-row,.res-grid{grid-template-columns:1fr}}
+.warn{display:none;font-size:14px;color:#ffb35c;background:rgba(247,147,30,0.08);padding:.75rem 1rem;margin-bottom:1rem;line-height:1.5}
+</style>
+</head>
+<body>
+<nav id="navbar">
+  <div class="nav-logo">
+    <a href="./"><img src="logo.svg" alt="PELTECH Electro Research" height="38" style="width:auto;display:block"></a>
+  </div>
+  <ul class="nav-links">
+    <li><a href="./#servicii">Servicii</a></li>
+    <li><a href="./#proiecte">Proiecte</a></li>
+    <li><a href="./#despre">Despre noi</a></li>
+    <li><a href="blog/">Blog</a></li>
+    <li><a href="./#contact">Contact</a></li>
+  </ul>
+  <a href="./#contact" class="nav-cta">Solicită ofertă</a>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Meniu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="./#servicii" onclick="toggleMenu()">Servicii</a></li>
+    <li><a href="./#proiecte" onclick="toggleMenu()">Proiecte</a></li>
+    <li><a href="./#despre" onclick="toggleMenu()">Despre noi</a></li>
+    <li><a href="blog/" onclick="toggleMenu()">Blog</a></li>
+    <li><a href="./#contact" onclick="toggleMenu()" style="color:var(--orange)">Solicită ofertă →</a></li>
+  </ul>
+</div>
+
+<div class="page-hero">
+  <div class="page-hero-content">
+    <div class="breadcrumb">
+      <a href="./">Acasă</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="servicii/sisteme-fotovoltaice.html">Fotovoltaice</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>Calculator</span>
+    </div>
+    <div class="section-eyebrow">Unealtă gratuită</div>
+    <h1 class="section-title" style="font-size:clamp(28px,4vw,52px)">Calculator fotovoltaic cu baterie</h1>
+    <p style="font-size:17px;line-height:1.7;color:rgba(242,240,235,0.7);max-width:620px">Află în 30 de secunde ce putere de panouri și ce baterie îți trebuie, cât costă orientativ, cât poate acoperi subvenția Casa Verde Baterii 2026 și cât economisești pe an.</p>
+  </div>
+</div>
+
+<div class="calc-wrap">
+  <!-- INPUT -->
+  <div class="calc-card">
+    <h2>Datele tale</h2>
+    <div class="seg" role="tablist">
+      <button id="m-new" class="on" onclick="setMode('new')">Sistem nou</button>
+      <button id="m-bat" onclick="setMode('bat')">Am panouri — vreau baterie</button>
+    </div>
+
+    <div class="form-group">
+      <label>Consum mediu lunar de energie</label>
+      <div class="range-row">
+        <input type="range" id="c-kwh" min="100" max="2000" step="10" value="400" oninput="calc()">
+        <div class="range-val"><span id="v-kwh">400</span> kWh</div>
+      </div>
+      <div class="hint">≈ <span id="v-bill">520</span> lei/lună pe factură. Găsești consumul pe factura de energie (kWh/lună). Casă medie: 300–500 kWh; cu pompă de căldură: 700–1.200 kWh.</div>
+    </div>
+
+    <div class="form-group" id="g-pv">
+      <label>Putere sistem fotovoltaic existent</label>
+      <div class="range-row">
+        <input type="range" id="c-pv" min="2" max="15" step="0.5" value="5" oninput="calc()">
+        <div class="range-val"><span id="v-pv">5</span> kWp</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Racordare la rețea</label>
+      <select id="c-phase" onchange="calc()">
+        <option value="mono">Monofazat (230 V)</option>
+        <option value="tri">Trifazat (400 V)</option>
+      </select>
+    </div>
+
+    <div class="form-group" id="g-roof">
+      <label>Tip acoperiș</label>
+      <select id="c-roof" onchange="calc()">
+        <option value="incl">Înclinat (țiglă / tablă)</option>
+        <option value="plat">Plat sau montaj pe sol</option>
+      </select>
+    </div>
+
+    <div class="form-group" id="g-batq">
+      <label class="chk"><input type="checkbox" id="c-bat" checked onchange="calc()"> Include baterie de stocare</label>
+    </div>
+
+    <div class="form-group" id="g-inv">
+      <label class="chk"><input type="checkbox" id="c-hyb" onchange="calc()"> Am deja invertor hibrid (compatibil cu baterie)</label>
+      <div class="hint">Dacă invertorul tău actual e on-grid simplu, pentru baterie e nevoie de un invertor hibrid. Costul lui nu e eligibil la subvenție.</div>
+    </div>
+
+    <div class="form-group" id="g-batsize">
+      <label>Capacitate baterie</label>
+      <select id="c-batsize" onchange="calc()">
+        <option value="auto">Recomandat automat</option>
+        <option value="10">10 kWh</option>
+        <option value="15">15 kWh</option>
+        <option value="20">20 kWh</option>
+        <option value="25">25 kWh</option>
+        <option value="30">30 kWh</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- OUTPUT -->
+  <div class="calc-card">
+    <h2>Rezultat orientativ</h2>
+    <div class="warn" id="w-phase"></div>
+    <div class="res-grid">
+      <div class="res hl" id="r-kwp-box">
+        <div class="res-label" id="r-kwp-label">Putere recomandată</div>
+        <div class="res-num" id="r-kwp">—</div>
+        <div class="res-sub" id="r-panels"></div>
+      </div>
+      <div class="res hl">
+        <div class="res-label">Baterie recomandată</div>
+        <div class="res-num" id="r-bat">—</div>
+        <div class="res-sub" id="r-bat-sub"></div>
+      </div>
+      <div class="res">
+        <div class="res-label">Producție anuală estimată</div>
+        <div class="res-num" id="r-prod">—</div>
+        <div class="res-sub" id="r-cover"></div>
+      </div>
+      <div class="res">
+        <div class="res-label">Economie anuală estimată</div>
+        <div class="res-num" id="r-save">—</div>
+        <div class="res-sub" id="r-auto"></div>
+      </div>
+    </div>
+
+    <table class="cost-table" id="cost-table"></table>
+
+    <div class="note" id="n-sub"></div>
+    <div class="note">Estimările folosesc o producție medie de 1.150 kWh/kWp/an (Timiș), un preț al energiei de 1,30 lei/kWh și prețuri orientative de piață pentru 2026. Costul real depinde de echipamente, acoperiș, distanța până la tablou și starea instalației existente — <strong>oferta finală se face după vizita în teren</strong>.</div>
+
+    <div class="lead">
+      <h3>Primește oferta exactă</h3>
+      <p>Trimitem calculul tău unui electrician PELTECH și te sunăm pentru o ofertă gratuită, fără obligații.</p>
+      <div class="lead-row">
+        <div class="form-group"><label>Nume</label><input type="text" id="l-name" placeholder="Ion Popescu"></div>
+        <div class="form-group"><label>Telefon</label><input type="tel" id="l-phone" placeholder="07XX XXX XXX"></div>
+      </div>
+      <div class="form-group"><label>Localitate</label><input type="text" id="l-loc" placeholder="Timișoara, Dumbrăvița, Giroc..."></div>
+      <div class="form-group form-consent">
+        <label class="chk" style="font-size:13px;font-weight:400"><input type="checkbox" id="l-consent"> <span>Sunt de acord cu prelucrarea datelor mele conform <a href="politica-de-confidentialitate.html" target="_blank" rel="noopener" style="color:var(--orange)">Politicii de confidențialitate</a>.</span></label>
+      </div>
+      <button class="btn-primary" id="l-btn" style="width:100%" onclick="sendLead()">Vreau ofertă pentru acest sistem →</button>
+      <div class="form-success" id="l-ok">✓ Am primit calculul tău! Te contactăm în cel mai scurt timp.</div>
+      <p style="text-align:center;margin-top:1rem;font-size:14px">sau sună direct: <a href="tel:+40721385784" style="color:var(--orange);text-decoration:none;font-weight:500">0721 385 784</a></p>
+    </div>
+  </div>
+</div>
+
+<div class="page-body" style="padding-top:0">
+  <h2>Cum calculăm</h2>
+  <p><strong>Puterea panourilor</strong> se dimensionează astfel încât producția anuală să acopere consumul tău anual. În zona Timișoara, un kWp instalat produce în medie 1.100–1.250 kWh pe an, în funcție de orientare și înclinare.</p>
+  <p><strong>Bateria</strong> se dimensionează după consumul de seară și de noapte, cam jumătate din consumul zilnic, cu minimum 10 kWh, capacitatea minimă eligibilă în programul Casa Verde Baterii 2026. Peste 20 kWh, subvenția și punctajul AFM nu mai cresc.</p>
+  <p><strong>Subvenția pentru baterie</strong> se calculează după regulile ghidului AFM: maximum 75% din cheltuielile eligibile, cu un cost eligibil de cel mult 1.500 lei/kWh și un plafon de 15.000 lei. Programul este doar pentru prosumatorii care au deja panouri racordate. Detalii în <a href="blog/casa-verde-baterii-2026.html" style="color:var(--orange)">ghidul nostru Casa Verde Baterii 2026</a>.</p>
+  <div class="cta-box">
+    <p>Ai întrebări despre rezultat? Te ajutăm să alegi echipamentele potrivite.</p>
+    <a href="servicii/sisteme-fotovoltaice.html" class="btn-primary">Sisteme fotovoltaice →</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">
+    <a href="./"><img src="logo.svg" alt="PELTECH Electro Research" height="34" style="width:auto;display:block"></a>
+  </div>
+  <div class="footer-copy">© 2026 PELTECH Electro Research SRL · CUI: 46995388</div>
+  <div class="footer-links">
+    <a href="./#servicii">Servicii</a>
+    <a href="./#proiecte">Proiecte</a>
+    <a href="./#contact">Contact</a>
+    <a href="politica-de-confidentialitate.html">Confidențialitate</a>
+  </div>
+</footer>
+<script src="script.js"></script>
+<script>
+// Ipoteze (actualizează aici dacă se schimbă prețurile)
+const YIELD=1150;          // kWh/kWp/an, Timiș
+const PRICE=1.30;          // lei/kWh energie din rețea
+const SURPLUS=0.40;        // lei/kWh valoare orientativă energie livrată în rețea
+const PANEL_W=450;         // W per panou
+const BAT_LO=1200, BAT_HI=1700;   // lei/kWh baterie + montaj
+const HYB_MONO=[4500,8000], HYB_TRI=[6500,11000]; // invertor hibrid
+const SUB_MAX=15000, SUB_PCT=0.75, SUB_KWH=1500, BAT_MIN=10;
+
+let mode='new', last={};
+const $=id=>document.getElementById(id);
+const fmt=n=>Math.round(n).toLocaleString('ro-RO');
+const r500=n=>Math.round(n/500)*500;
+
+function setMode(m){
+  mode=m;
+  $('m-new').classList.toggle('on',m==='new');
+  $('m-bat').classList.toggle('on',m==='bat');
+  calc();
+}
+
+function calc(){
+  const kwh=+$('c-kwh').value, phase=$('c-phase').value, roof=$('c-roof').value;
+  $('v-kwh').textContent=fmt(kwh); $('v-bill').textContent=fmt(kwh*PRICE);
+  const isNew=mode==='new';
+  $('g-pv').style.display=isNew?'none':'';
+  $('g-roof').style.display=isNew?'':'none';
+  $('g-batq').style.display=isNew?'':'none';
+  $('g-inv').style.display=isNew?'none':'';
+  const wantBat=isNew?$('c-bat').checked:true;
+  $('g-batsize').style.display=wantBat?'':'none';
+
+  const annual=kwh*12;
+  let kwp;
+  if(isNew){ kwp=Math.max(3,Math.ceil(annual/YIELD*2)/2); }
+  else { kwp=+$('c-pv').value; $('v-pv').textContent=kwp.toString().replace('.',','); }
+  const prod=kwp*YIELD;
+
+  // baterie
+  let bat=0;
+  if(wantBat){
+    const sel=$('c-batsize').value;
+    if(sel==='auto'){ const need=kwh/30*0.5; bat=need<=10?10:need<=15?15:20; }
+    else bat=+sel;
+  }
+
+  // avertizare monofazat
+  const w=$('w-phase');
+  if(phase==='mono'&&kwp>6){w.style.display='block';w.textContent='Peste ~6 kWp se recomandă racordare trifazată. Pe monofazat, puterea invertorului e de regulă limitată — verificăm la vizită dacă e nevoie de trecerea la trifazat.';}
+  else w.style.display='none';
+
+  // costuri
+  const rows=[]; let lo=0, hi=0;
+  if(isNew){
+    let pl=3000*kwp+3000, ph=4250*kwp+3250;
+    if(roof==='plat'){pl+=800;ph+=1500;}
+    if(wantBat){ // invertor hibrid în loc de on-grid: diferență
+      const d=phase==='tri'?[1500,3000]:[1000,2000]; pl+=d[0]; ph+=d[1];
+    }
+    rows.push(['Sistem fotovoltaic '+String(kwp).replace('.',',')+' kWp'+(wantBat?' cu invertor hibrid':'')+', montat',pl,ph]);
+    lo+=pl; hi+=ph;
+  }else if(!$('c-hyb').checked){
+    const h=phase==='tri'?HYB_TRI:HYB_MONO;
+    rows.push(['Invertor hibrid '+(phase==='tri'?'trifazat':'monofazat')+', montat (neeligibil)',h[0],h[1]]);
+    lo+=h[0]; hi+=h[1];
+  }
+  let bl=0,bh=0;
+  if(bat){ bl=bat*BAT_LO; bh=bat*BAT_HI; rows.push(['Baterie '+bat+' kWh LiFePO4, montaj și punere în funcțiune',bl,bh]); lo+=bl; hi+=bh; }
+
+  // subvenție (doar prosumatori existenți)
+  let sub=0;
+  if(!isNew&&bat){
+    const mid=(bl+bh)/2;
+    sub=Math.min(SUB_MAX, SUB_PCT*Math.min(mid, bat*SUB_KWH));
+    rows.push(['Subvenție estimată Casa Verde Baterii',-sub,-sub,'neg']);
+    lo-=sub; hi-=sub;
+  }
+
+  let html='';
+  rows.forEach(r=>{
+    const v=r[1]===r[2]?(r[1]<0?'− ':'')+fmt(Math.abs(r[1]))+' lei':fmt(r500(r[1]))+' – '+fmt(r500(r[2]))+' lei';
+    html+='<tr'+(r[3]?' class="'+r[3]+'"':'')+'><td>'+r[0]+'</td><td>'+v+'</td></tr>';
+  });
+  html+='<tr class="tot"><td>'+(sub?'Cost estimat după subvenție':'Cost total estimat')+'</td><td>'+fmt(r500(lo))+' – '+fmt(r500(hi))+' lei</td></tr>';
+  $('cost-table').innerHTML=html;
+
+  // economie
+  const selfNo=0.35, selfBat=Math.min(0.80,0.35+bat*0.025);
+  const selfR=bat?selfBat:selfNo;
+  const self=Math.min(prod*selfR, annual);
+  const surplus=Math.max(0,prod-self);
+  const saveNow=self*PRICE+surplus*SURPLUS;
+  let save=saveNow;
+  if(!isNew){ // economie suplimentară adusă de baterie
+    const selfBefore=Math.min(prod*selfNo,annual);
+    const before=selfBefore*PRICE+Math.max(0,prod-selfBefore)*SURPLUS;
+    save=saveNow-before;
+  }
+
+  $('r-kwp-label').textContent=isNew?'Putere recomandată':'Sistem existent';
+  $('r-kwp').innerHTML=String(kwp).replace('.',',')+' <small>kWp</small>';
+  $('r-panels').textContent=isNew?'≈ '+Math.ceil(kwp*1000/PANEL_W)+' panouri de '+PANEL_W+' W · ~'+Math.round(kwp*1000/PANEL_W*2)+' m² acoperiș':'';
+  $('r-bat').innerHTML=bat?bat+' <small>kWh</small>':'—';
+  $('r-bat-sub').textContent=bat?('Punctaj AFM capacitate: '+(2.5*Math.min(bat,20)).toString().replace('.',',')+' / 50'):'Fără baterie';
+  $('r-prod').innerHTML=fmt(prod)+' <small>kWh/an</small>';
+  $('r-cover').textContent='≈ '+Math.round(prod/annual*100)+'% din consumul tău anual';
+  $('r-save').innerHTML=fmt(save)+' <small>lei/an</small>';
+  $('r-auto').textContent=isNew?('Autoconsum estimat: '+Math.round(selfR*100)+'% din producție'):'Economie suplimentară adusă de baterie';
+  const payback=save>0?(lo+hi)/2/save:0;
+  if(payback>0) $('r-auto').textContent+=' · amortizare ~'+(Math.round(payback*2)/2).toString().replace('.',',')+' ani';
+
+  $('n-sub').innerHTML=isNew
+    ? (bat?'<strong>Subvenția Casa Verde Baterii 2026</strong> se acordă doar prosumatorilor care au <em>deja</em> panouri racordate și contract de prosumator, deci nu se aplică la un sistem nou. Verifică pe <a href="https://www.afm.ro" target="_blank" rel="noopener">afm.ro</a> dacă există programe active pentru fotovoltaice.':'Verifică pe <a href="https://www.afm.ro" target="_blank" rel="noopener">afm.ro</a> dacă există programe de finanțare active pentru sisteme fotovoltaice.')
+    : '<strong>Subvenția estimată</strong> respectă regulile ghidului AFM: max. 75% din costul eligibil, plafonat la 1.500 lei/kWh și 15.000 lei. Invertorul hibrid nu e cheltuială eligibilă. Înscrieri: 20–25 noiembrie 2026 — <a href="blog/casa-verde-baterii-2026.html">vezi ghidul complet</a>.';
+
+  last={mod:isNew?'Sistem nou':'Doar baterie (are panouri)',kwh,phase,roof:isNew?roof:'-',kwp,bat,prod:Math.round(prod),cost:fmt(r500(lo))+' – '+fmt(r500(hi))+' lei',sub:Math.round(sub),save:Math.round(save),hyb:!isNew?($('c-hyb').checked?'da':'nu'):'-'};
+}
+
+async function sendLead(){
+  const name=$('l-name').value.trim(), phone=$('l-phone').value.trim();
+  if(!name||!phone){alert('Completați numele și telefonul.');return;}
+  if(!$('l-consent').checked){alert('Trebuie să fii de acord cu prelucrarea datelor pentru a trimite formularul.');return;}
+  const btn=$('l-btn'); btn.disabled=true; btn.textContent='Se trimite...';
+  const L=last;
+  const msg='Calcul din calculatorul fotovoltaic:\n'+
+    '- Tip: '+L.mod+'\n- Consum: '+L.kwh+' kWh/lună\n- Racordare: '+L.phase+'\n- Acoperiș: '+L.roof+
+    '\n- Putere PV: '+L.kwp+' kWp\n- Baterie: '+(L.bat||'fără')+(L.bat?' kWh':'')+'\n- Invertor hibrid existent: '+L.hyb+
+    '\n- Producție: '+L.prod+' kWh/an\n- Cost estimat: '+L.cost+(L.sub?'\n- Subvenție estimată: '+L.sub+' lei':'')+
+    '\n- Economie: '+L.save+' lei/an\n- Localitate: '+($('l-loc').value.trim()||'-');
+  try{
+    const res=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({access_key:'99f18de4-05e8-460c-b213-b780659f9429',subject:'Cerere ofertă — Calculator fotovoltaic',name,phone,'Tip lucrare':'Sistem fotovoltaic / baterie (calculator)',message:msg})});
+    const d=await res.json();
+    if(d.success){ $('l-ok').style.display='block'; btn.textContent='Trimis ✓'; ['l-name','l-phone','l-loc'].forEach(i=>$(i).value=''); $('l-consent').checked=false; return; }
+    alert('Eroare la trimitere. Sunați-ne la 0721 385 784.');
+  }catch(e){ alert('Eroare la trimitere. Sunați-ne la 0721 385 784.'); }
+  btn.disabled=false; btn.textContent='Vreau ofertă pentru acest sistem →';
+}
+calc();
+</script>
+</body>
+</html>
