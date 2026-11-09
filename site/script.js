@@ -172,13 +172,12 @@ document.querySelectorAll('.fade-in-section').forEach(el=>observer.observe(el));
 const titleObserver=new IntersectionObserver((entries)=>{
   entries.forEach(entry=>{
     if(entry.isIntersecting){
-      (entry.target._title||entry.target).classList.add('visible');
+      entry.target.classList.add('visible');
       titleObserver.unobserve(entry.target);
     }
   });
 },{threshold:0.1,rootMargin:'0px 0px 60px 0px'});
-// observăm părintele: un element ascuns complet cu clip-path nu e raportat ca vizibil în Chrome
-document.querySelectorAll('.section-title').forEach(el=>{const w=el.parentElement||el;w._title=el;titleObserver.observe(w);});
+document.querySelectorAll('.section-title').forEach(el=>titleObserver.observe(el));
 
 // Staggered service cards
 const cardObserver=new IntersectionObserver((entries)=>{
